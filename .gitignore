@@ -16,5 +16,4 @@ env/
 Thumbs.db
 
 # Project specific
-data/
 config.ini
