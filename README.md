@@ -7,7 +7,7 @@ This project is a system for predicting outcomes in badminton tournaments using 
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd badminton-prediction-system
+   cd BWF-Prediction
    ```
 
 2. Create a virtual environment:
