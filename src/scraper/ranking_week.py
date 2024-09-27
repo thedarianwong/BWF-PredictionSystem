@@ -36,7 +36,7 @@ def save_to_csv(data, filename='ranking_weeks.csv'):
 
     return file_path
 
-if __name__ == "__main__":
+def main():
     url = "https://bwf.tournamentsoftware.com/ranking/tournaments.aspx?id=42400"
     week_ids = scrape_ranking_week_ids(url)
     if week_ids:
@@ -44,3 +44,6 @@ if __name__ == "__main__":
         print(f"Ranking week IDs saved to {saved_path}")
     else:
         print("No ranking week IDs found.")
+
+if __name__ == "__main__":
+    main()
