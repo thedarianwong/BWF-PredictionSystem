@@ -3,6 +3,16 @@ from bs4 import BeautifulSoup
 import csv
 import time
 
+def read_player_ids_from_csv(file_path):
+    player_ids = []
+    with open(file_path, 'r', newline='', encoding='utf-8') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            profile_link = row['Profile Link']
+            player_id = profile_link.split('/')[-1]  # Get the last part of the URL
+            player_ids.append(player_id)
+    return player_ids
+
 def scrape_player_data(player_id):
     url = f"https://bwf.tournamentsoftware.com/player-profile/{player_id}"
     headers = {
@@ -16,15 +26,15 @@ def scrape_player_data(player_id):
         
         data = {'Player ID': player_id}
         
-        # Name and Number (unchanged)
+        # Name and Member ID (unchanged)
         media_content = soup.find('div', class_='media__content')
         if media_content:
             name_elem = media_content.select_one('span.nav-link__value')
-            number_elem = media_content.select_one('span.media__title-aside')
+            member_id_elem = media_content.select_one('span.media__title-aside')
             if name_elem:
                 data['Name'] = name_elem.text.strip()
-            if number_elem:
-                data['Number'] = number_elem.text.strip('()')
+            if member_id_elem:
+                data['Member ID'] = member_id_elem.text.strip('()')
         
         # Personal details (unchanged)
         module_container = soup.find('div', class_='module-container')
@@ -87,22 +97,22 @@ def scrape_player_data(player_id):
         print(f"Error fetching data for player ID {player_id}: {e}")
         return {'Player ID': player_id}
 
-def main(player_ids, output_file):
+def main(csv_file_path, output_file):
+    player_ids = read_player_ids_from_csv(csv_file_path)
+    
     with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ['Player ID', 'Name', 'Number', 'Height', 'Year of Birth', 'Play R or L', 'Career', 'This Year', 'History']
+        fieldnames = ['Player ID', 'Name', 'Member ID', 'Height', 'Year of Birth', 'Play R or L', 'Career', 'This Year', 'History']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
         
         for player_id in player_ids:
             data = scrape_player_data(player_id)
             writer.writerow(data)
-            time.sleep(2)  # Be respectful with request frequency
+            time.sleep(2) 
 
     print(f"Data collection complete. Results saved in {output_file}")
 
 if __name__ == "__main__":
-    player_ids = [
-        "38CBD70E-A643-4170-9E6A-28863412DC7B",
-        # Add more player IDs here
-    ]
-    main(player_ids, "bwf_player_data_extended.csv")
+    csv_input_file = "data/raw/ms_ranking.csv"  
+    output_file = "data/raw/bwf_player_bio.csv" 
+    main(csv_input_file, output_file)
