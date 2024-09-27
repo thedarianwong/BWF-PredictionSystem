@@ -75,6 +75,9 @@ class S3Uploader:
         self.logger.debug(f"Finished upload of directory: {local_directory}")
         return success
 
+
+
+
 def get_aws_credentials():
     session = boto3.Session()
     credentials = session.get_credentials()
@@ -85,7 +88,7 @@ def get_aws_credentials():
     }
 
 # Usage
-bucket_name = 'bwf-data-thedarianwong'  # Replace with your actual bucket name
+bucket_name = 'bwf-data-thedarianwong' 
 uploader = S3Uploader(bucket_name)
 
 # Print AWS credentials (redacted)
@@ -100,8 +103,8 @@ if not uploader.check_bucket_exists():
     print(f"Available buckets: {', '.join(available_buckets)}")
     print("Bucket does not exist or you don't have access. Check s3_upload.log for details.")
 else:
-    # Get the project root directory (two levels up from current directory)
-    project_root = os.path.abspath(os.path.join(os.getcwd(), '..', '..'))
+    # Get the project root directory (one level up from aws directory)
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     print(f"Project root directory: {project_root}")
 
     # For raw data
