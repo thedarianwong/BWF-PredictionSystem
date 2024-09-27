@@ -1,0 +1,12 @@
+2024-09-27 02:39:27,699 - ERROR - Bucket bwf-tournament-data does not exist.
+2024-09-27 02:39:28,031 - INFO - Available buckets: bwf-data-thedarianwong
+2024-09-27 02:40:15,105 - INFO - Bucket bwf-data-thedarianwong exists and you have access to it.
+2024-09-27 02:42:42,370 - INFO - Bucket bwf-data-thedarianwong exists and you have access to it.
+2024-09-27 02:42:42,373 - DEBUG - Starting upload of directory: /Users/thedarianwong/Developer/BWFPredictionSystem/BWF-PredictionSystem/data/raw
+2024-09-27 02:42:42,373 - DEBUG - Attempting to upload /Users/thedarianwong/Developer/BWFPredictionSystem/BWF-PredictionSystem/data/raw/bwf_tournaments.csv to bwf-data-thedarianwong/raw/bwf_tournaments.csv
+2024-09-27 02:42:44,713 - INFO - Uploaded /Users/thedarianwong/Developer/BWFPredictionSystem/BWF-PredictionSystem/data/raw/bwf_tournaments.csv to bwf-data-thedarianwong/raw/bwf_tournaments.csv
+2024-09-27 02:42:44,714 - DEBUG - Attempting to upload /Users/thedarianwong/Developer/BWFPredictionSystem/BWF-PredictionSystem/data/raw/ranking_weeks.csv to bwf-data-thedarianwong/raw/ranking_weeks.csv
+2024-09-27 02:42:44,909 - INFO - Uploaded /Users/thedarianwong/Developer/BWFPredictionSystem/BWF-PredictionSystem/data/raw/ranking_weeks.csv to bwf-data-thedarianwong/raw/ranking_weeks.csv
+2024-09-27 02:42:44,909 - DEBUG - Finished upload of directory: /Users/thedarianwong/Developer/BWFPredictionSystem/BWF-PredictionSystem/data/raw
+2024-09-27 02:42:44,909 - DEBUG - Starting upload of directory: /Users/thedarianwong/Developer/BWFPredictionSystem/BWF-PredictionSystem/data/processed
+2024-09-27 02:42:44,909 - DEBUG - Finished upload of directory: /Users/thedarianwong/Developer/BWFPredictionSystem/BWF-PredictionSystem/data/processed
