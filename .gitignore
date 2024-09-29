@@ -6,6 +6,10 @@ __pycache__/
 # Virtual environment
 venv/
 env/
+.env
+*.env
+logs/
+*.log
 
 # IDEs
 .vscode/
