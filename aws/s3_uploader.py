@@ -87,45 +87,56 @@ def get_aws_credentials():
         'Region': session.region_name
     }
 
-# Usage
-bucket_name = 'bwf-data-thedarianwong' 
-uploader = S3Uploader(bucket_name)
+def main():
+    # Get and print AWS credentials (redacted)
+    creds = get_aws_credentials()
+    print(f"AWS Access Key ID: {creds['AccessKeyId'][:5]}...{creds['AccessKeyId'][-3:]}")
+    print(f"AWS Secret Access Key: {creds['SecretAccessKey'][:5]}...{creds['SecretAccessKey'][-3:]}")
+    print(f"AWS Region: {creds['Region']}")
 
-# Print AWS credentials (redacted)
-creds = get_aws_credentials()
-print(f"AWS Access Key ID: {creds['AccessKeyId'][:5]}...{creds['AccessKeyId'][-3:]}")
-print(f"AWS Secret Access Key: {creds['SecretAccessKey'][:5]}...{creds['SecretAccessKey'][-3:]}")
-print(f"AWS Region: {creds['Region']}")
+    # Usage
+    bucket_name = 'bwf-data-thedarianwong' 
+    uploader = S3Uploader(bucket_name)
 
-# Check if bucket exists
-if not uploader.check_bucket_exists():
-    available_buckets = uploader.list_buckets()
-    print(f"Available buckets: {', '.join(available_buckets)}")
-    print("Bucket does not exist or you don't have access. Check s3_upload.log for details.")
-else:
-    # Get the project root directory (one level up from aws directory)
-    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    print(f"Project root directory: {project_root}")
+    # Check if bucket exists
+    if not uploader.check_bucket_exists():
+        available_buckets = uploader.list_buckets()
+        uploader.logger.error(f"Bucket {bucket_name} does not exist or you don't have access. Available buckets: {', '.join(available_buckets)}")
+        return False
 
-    # For raw data
+    # Get the project root directory (two levels up from this script)
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+    uploader.logger.info(f"Project root directory: {project_root}")
+
+    # Upload raw data
     local_raw_directory = os.path.join(project_root, "data", "raw")
-    print(f"Raw data directory: {local_raw_directory}")
     if os.path.exists(local_raw_directory):
-        print(f"Files in raw directory: {os.listdir(local_raw_directory)}")
+        uploader.logger.info(f"Uploading raw data from: {local_raw_directory}")
         uploaded_raw = uploader.upload_directory(local_raw_directory, "raw")
+        if not uploaded_raw:
+            uploader.logger.error("Failed to upload raw data")
+            return False
     else:
-        print(f"Raw data directory does not exist: {local_raw_directory}")
+        uploader.logger.warning(f"Raw data directory does not exist: {local_raw_directory}")
 
-    # For processed data
+    # Upload processed data
     local_processed_directory = os.path.join(project_root, "data", "processed")
-    print(f"Processed data directory: {local_processed_directory}")
     if os.path.exists(local_processed_directory):
-        print(f"Files in processed directory: {os.listdir(local_processed_directory)}")
+        uploader.logger.info(f"Uploading processed data from: {local_processed_directory}")
         uploaded_processed = uploader.upload_directory(local_processed_directory, "processed")
+        if not uploaded_processed:
+            uploader.logger.error("Failed to upload processed data")
+            return False
     else:
-        print(f"Processed data directory does not exist: {local_processed_directory}")
+        uploader.logger.warning(f"Processed data directory does not exist: {local_processed_directory}")
 
-# Print out the contents of the log file
-with open('s3_upload.log', 'r') as log_file:
-    print("\nContents of s3_upload.log:")
-    print(log_file.read())
+    uploader.logger.info("S3 upload completed successfully")
+    return True
+
+
+if __name__ == "__main__":
+    success = main()
+    if success:
+        print("S3 upload completed successfully")
+    else:
+        print("S3 upload failed. Check s3_upload.log for details.")
