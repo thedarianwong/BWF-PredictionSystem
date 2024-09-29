@@ -6,6 +6,10 @@ __pycache__/
 # Virtual environment
 venv/
 env/
+.env
+*.env
+logs/
+*.log
 
 # IDEs
 .vscode/
@@ -17,3 +21,9 @@ Thumbs.db
 
 # Project specific
 config.ini
+
+# Airflow
+airflow/airflow.db
+airflow/webserver_config.py
+airflow/logs/
+airflow/*.pid

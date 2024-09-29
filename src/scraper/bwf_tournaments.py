@@ -63,7 +63,7 @@ def save_to_csv(data, filename='bwf_tournaments.csv', mode='a'):
 
     return file_path
 
-if __name__ == "__main__":
+def main():
     week_ids = load_ranking_weeks()
     
     # Clear the existing file before starting
@@ -81,3 +81,6 @@ if __name__ == "__main__":
         time.sleep(1)
 
     print("Scraping completed. All data saved to bwf_tournaments.csv")
+
+if __name__ == "__main__":
+    main()
