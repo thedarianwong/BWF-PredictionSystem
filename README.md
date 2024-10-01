@@ -52,4 +52,6 @@ This project is a system for predicting outcomes in badminton tournaments using 
 - `docker-compose.yml`: Docker Compose configuration
 - `docker-manage.sh`: Script to manage Docker operations
 
-This README now reflects the Docker-based setup and includes instructions for using the `docker-manage.sh` script. It maintains the project structure section and provides clear instructions for building, starting, and managing the Docker containers, as well as running the scraper and other Python scripts within the Docker environment.
+## Owner's Comment
+
+This project is still in the early phase, our goal is to create a project to understand more about data engineering and data visualization. At the same time, we are badminton enthusiasts that regularly follows the BWF tournaments throughout the year, so we thought it would be cool to have a prediction model to see who will win the future upcoming tournamments.
