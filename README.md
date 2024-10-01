@@ -28,12 +28,7 @@ This project is a system for predicting outcomes in badminton tournaments using 
    ./docker-manage.sh stop
    ```
 
-5. For Docker help:
-  ```bash
-   ./docker-manage.sh help
-   ```
-
-6. Running the scraper for Development purposes:
+5. Running the scraper for Development purposes:
    ```bash
    ./docker-manage.sh exec python <script name>.py
    ```
