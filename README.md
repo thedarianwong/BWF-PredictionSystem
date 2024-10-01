@@ -27,7 +27,7 @@ This project is a system for predicting outcomes in badminton tournaments using 
    ```bash
    ./docker-manage.sh stop
    ```
-   
+
 5. For Docker help:
   ```bash
    ./docker-manage.sh help
