@@ -10,11 +10,15 @@ ENV_FILE=".env"
 usage() {
     echo "Usage: $0 [option]"
     echo "Options:"
+    echo "  build   - Build or rebuild Docker images"
     echo "  start   - Start Docker containers"
     echo "  stop    - Stop Docker containers"
     echo "  restart - Restart Docker containers"
     echo "  logs    - View Docker logs"
     echo "  clean   - Remove stopped containers and unused images"
+    echo "  exec    - Execute a command in the main container"
+    echo "           For Python scripts in src/scraper, just use the script name"
+    echo "           Example: $0 exec python script.py"
     echo "  help    - Display this help message"
 }
 
@@ -24,6 +28,12 @@ check_docker() {
         echo "Error: Docker is not running. Please start Docker and try again."
         exit 1
     fi
+}
+
+#Function to build containers
+build() {
+    echo "Building Docker images..."
+    docker-compose build
 }
 
 # Function to start containers
@@ -61,8 +71,25 @@ clean() {
     docker volume prune -f
 }
 
+# Function to execute a command in the main container
+exec_command() {
+    check_docker
+    echo "Executing command in main container..."
+    if [[ "$1" == "python" ]]; then
+        command="python /opt/airflow/BWF-PredictionSystem/src/scraper/$2 ${@:3}"
+        echo "Executing: $command"
+        docker-compose -f $COMPOSE_FILE exec airflow-webserver $command
+    else
+        echo "Executing: $@"
+        docker-compose -f $COMPOSE_FILE exec airflow-webserver "$@"
+    fi
+}
+
 # Main script logic
 case "$1" in
+    build)
+            build
+            ;;
     start)
         start
         ;;
@@ -77,6 +104,10 @@ case "$1" in
         ;;
     clean)
         clean
+        ;;
+    exec)
+        shift
+        exec_command "$@"
         ;;
     help)
         usage

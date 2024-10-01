@@ -27,3 +27,9 @@ airflow/airflow.db
 airflow/webserver_config.py
 airflow/logs/
 airflow/*.pid
+
+#Data
+data/
+data/raw
+data/**/*.csv
+data/processed

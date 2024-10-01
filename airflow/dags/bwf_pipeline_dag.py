@@ -6,7 +6,8 @@ import subprocess
 import os
 
 # Define the path to your project root
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+PROJECT_ROOT = os.getenv('BWF_PROJECT_ROOT', '/opt/airflow/BWF-PredictionSystem')
+print(f"Using PROJECT_ROOT: {PROJECT_ROOT}")
 
 default_args = {
     'owner': 'airflow',
@@ -29,6 +30,7 @@ dag = DAG(
 def run_python_script(script_path):
     def run_script(**kwargs):
         full_path = os.path.join(PROJECT_ROOT, script_path)
+        print(f"Attempting to run script at: {full_path}")
         result = subprocess.run(['python', full_path], capture_output=True, text=True)
         if result.returncode != 0:
             raise Exception(f"Script failed with error: {result.stderr}")
@@ -38,12 +40,7 @@ def run_python_script(script_path):
 # Create tasks for each scraper
 scraper_tasks = []
 scraper_scripts = [
-    'scraper/bwf_tournaments.py',
-    'scraper/h2h.py',
-    'scraper/mens_singles_demo.py',
-    'scraper/ms_ranking.py',
-    'scraper/player_bio.py',
-    'scraper/ranking_week.py'
+    'src/scraper/ranking_week.py'
 ]
 
 for script in scraper_scripts:
