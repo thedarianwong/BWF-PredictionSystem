@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   postgres:
     image: postgres:13
@@ -40,7 +38,11 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./airflow:/opt/airflow
+      - ./airflow/dags:/opt/airflow/dags 
+      - .:/opt/airflow/BWF-PredictionSystem  # Mount the entire project directory
+    environment:
+      - AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags
+      - BWF_PROJECT_ROOT=/opt/airflow/BWF-PredictionSystem  # Set the project root environment variable
     env_file:
       - .env
     healthcheck:
@@ -58,7 +60,11 @@ services:
       dockerfile: docker/Dockerfile
     command: scheduler
     volumes:
-      - ./airflow:/opt/airflow
+      - ./airflow/dags:/opt/airflow/dags 
+      - .:/opt/airflow/BWF-PredictionSystem  # Mount the entire project directory
+    environment:
+      - AIRFLOW__CORE__DAGS_FOLDER=/opt/airflow/dags
+      - BWF_PROJECT_ROOT=/opt/airflow/BWF-PredictionSystem  # Set the project root environment variable
     env_file:
       - .env
     depends_on:
