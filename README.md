@@ -10,7 +10,7 @@ This project is a system for predicting outcomes in badminton tournaments using 
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd BWF-Prediction
+   cd BWF-PredictionSystem
    ```
 
 2. Build the Docker images:
@@ -31,6 +31,11 @@ This project is a system for predicting outcomes in badminton tournaments using 
 5. Running the scraper for Development purposes:
    ```bash
    ./docker-manage.sh exec python <script name>.py
+   ```
+
+6. For Docker help:
+   ```bash
+   ./docker-manage.sh help
    ```
 
 ## Project Structure
